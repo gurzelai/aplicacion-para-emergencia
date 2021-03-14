@@ -1,13 +1,17 @@
 package com.gurzelai.aplicacionparaemergencia;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.hardware.camera2.CameraAccessException;
+import android.hardware.camera2.CameraManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -15,6 +19,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Hashtable;
 
@@ -25,7 +30,12 @@ public class MainActivity extends AppCompatActivity {
     Button boton;
     EditText etTexto;
     TextView etResultado;
-    Button btnLlamar;
+    Button btnLlamar, btnFlash;
+
+    boolean flashAccesible = false;
+    private CameraManager mCameraManager;
+    private String mCameraId;
+    boolean flashEncendido = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +56,65 @@ public class MainActivity extends AppCompatActivity {
         });
         btnLlamar = findViewById(R.id.btnLlamar);
         btnLlamar.setOnClickListener(view -> pedirPermiso());
+        btnFlash = findViewById(R.id.btnFlash);
+        btnFlash.setOnClickListener(view -> cargarFlash());
+    }
+
+    private void cargarFlash() {
+        inicializar();
+        if (flashAccesible) actualizarFlash();
+    }
+
+    private void actualizarFlash() {
+        try {
+            if (flashEncendido) {
+                mCameraManager.setTorchMode(mCameraId, false);
+                flashEncendido = false;
+            } else {
+                try {
+                    mCameraManager.setTorchMode(mCameraId, true);
+                    flashEncendido = true;
+                } catch (CameraAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (CameraAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void inicializar() {
+        if (flashAccesible) {
+            mCameraManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
+            try {
+                mCameraId = mCameraManager.getCameraIdList()[0];
+            } catch (CameraAccessException e) {
+                e.printStackTrace();
+            }
+        } else {
+            comprobarAccesibilidad();
+            if(flashAccesible) inicializar(); //esto para cargar los ids...
+        }
+    }
+
+    private void comprobarAccesibilidad() {
+        flashAccesible = getApplicationContext().getPackageManager()
+                .hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
+        if (!flashAccesible) {
+            showNoFlashError();
+        }
+    }
+
+    private void showNoFlashError() {
+        AlertDialog alert = new AlertDialog.Builder(this)
+                .create();
+        alert.setTitle("Oops!");
+        alert.setMessage("No se puede acceder al flash...");
+        alert.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        alert.show();
     }
 
 
@@ -94,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     llamarEmergencias();
                 } else {
-                    // PERMISO DENEGADO
+                    Toast.makeText(getApplicationContext(), "Esta app necesita tu permiso para llamar a emergencias", Toast.LENGTH_LONG).show();
                 }
                 return;
             }

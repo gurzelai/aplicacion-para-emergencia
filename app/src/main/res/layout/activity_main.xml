@@ -47,7 +47,7 @@
             android:id="@+id/tvResultado"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="40sp"/>
+            android:textSize="40sp" />
     </ScrollView>
 
 
@@ -60,19 +60,27 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <Button
+            android:id="@+id/btnFlash"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#FFEB3B"
+            android:text="FLASH" />
+
+        <Button
             android:id="@+id/btncodificar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10sp"
             android:layout_marginRight="10sp"
-            android:text="CODIFICAR"/>
+            android:text="CODIFICAR" />
 
         <Button
             android:id="@+id/btnLlamar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10sp"
             android:backgroundTint="#CC1010"
             android:text="SOS CALL" />
+
 
     </LinearLayout>
 
