@@ -1,25 +1,31 @@
 package com.gurzelai.aplicacionparaemergencia;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import java.util.Hashtable;
 
 public class MainActivity extends AppCompatActivity {
 
+    final int MY_PERMISSIONS_REQUEST_CALL_PHONE = 1;
+
     Button boton;
     EditText etTexto;
     TextView etResultado;
+    Button btnLlamar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         etResultado = findViewById(R.id.tvResultado);
         etTexto = findViewById(R.id.etTexto);
-        boton = (Button) findViewById(R.id.boton);
+        boton = (Button) findViewById(R.id.btncodificar);
         boton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -38,6 +44,23 @@ public class MainActivity extends AppCompatActivity {
                 etResultado.setText(codificado);
             }
         });
+        btnLlamar = findViewById(R.id.btnLlamar);
+        btnLlamar.setOnClickListener(view -> pedirPermiso());
+    }
+
+
+    public void pedirPermiso() {
+        if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
+            llamarEmergencias();
+        } else {
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.CALL_PHONE}, MY_PERMISSIONS_REQUEST_CALL_PHONE);
+        }
+    }
+
+    private void llamarEmergencias() {
+        Intent i = new Intent(Intent.ACTION_CALL);
+        i.setData(Uri.parse("tel:112"));
+        startActivity(i);
     }
 
     public void quitarTeclado() {
@@ -61,6 +84,21 @@ public class MainActivity extends AppCompatActivity {
     public static String asciiAMorse(String ascii) {
         Hashtable<String, String> equivalencias = obtenerEquivalencias();
         return equivalencias.getOrDefault(ascii, "");
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_CALL_PHONE: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    llamarEmergencias();
+                } else {
+                    // PERMISO DENEGADO
+                }
+                return;
+            }
+        }
     }
 
     public static Hashtable<String, String> obtenerEquivalencias() {
