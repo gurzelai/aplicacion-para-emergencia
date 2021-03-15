@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AplicacionParaEmergencia">
         <activity
+            android:name=".Configuracion"
+            android:parentActivityName=".MainActivity" />
+        <activity
             android:name=".Codificar"
             android:parentActivityName=".MainActivity" />
         <activity

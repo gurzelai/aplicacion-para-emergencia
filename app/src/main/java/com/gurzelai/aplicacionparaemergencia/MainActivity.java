@@ -64,6 +64,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 break;
             case "configuracion":
+                intent = new Intent(getApplicationContext(), Configuracion.class);
+                startActivity(intent);
                 break;
             case "marcacion rapida":
                 break;
