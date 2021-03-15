@@ -21,102 +21,51 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.nio.channels.InterruptedByTimeoutException;
 import java.util.Hashtable;
 
 public class MainActivity extends AppCompatActivity {
 
     final int MY_PERMISSIONS_REQUEST_CALL_PHONE = 1;
 
-    Button boton;
-    EditText etTexto;
-    TextView etResultado;
-    Button btnLlamar, btnFlash;
-
-    boolean flashAccesible = false;
-    private CameraManager mCameraManager;
-    private String mCameraId;
-    boolean flashEncendido = false;
+    FloatingActionButton btnLlamar;
+    Button btnCodificacion, btnDecodificacion, btnConfiguracion, btnMarcacionRapida;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getSupportActionBar().hide();
-        etResultado = findViewById(R.id.tvResultado);
-        etTexto = findViewById(R.id.etTexto);
-        boton = (Button) findViewById(R.id.btncodificar);
-        boton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                quitarTeclado();
-                String texto = etTexto.getText().toString();
-                String codificado = codificar(texto);
-                etResultado.setText(codificado);
-            }
-        });
+
+        btnCodificacion = findViewById(R.id.btnCodificar);
+        btnCodificacion.setOnClickListener(view -> abrirIntent("codificacion"));
+        btnDecodificacion = findViewById(R.id.btnDecodificar);
+        btnDecodificacion.setOnClickListener(view -> abrirIntent("decodificacion"));
+        btnConfiguracion = findViewById(R.id.btnConfiguracion);
+        btnConfiguracion.setOnClickListener(view -> abrirIntent("configuracion"));
+        btnMarcacionRapida = findViewById(R.id.btnMarcacionRapida);
+        btnMarcacionRapida.setOnClickListener(view -> abrirIntent("marcacion rapida"));
+
         btnLlamar = findViewById(R.id.btnLlamar);
         btnLlamar.setOnClickListener(view -> pedirPermiso());
-        btnFlash = findViewById(R.id.btnFlash);
-        btnFlash.setOnClickListener(view -> cargarFlash());
+
     }
 
-    private void cargarFlash() {
-        inicializar();
-        if (flashAccesible) actualizarFlash();
-    }
-
-    private void actualizarFlash() {
-        try {
-            if (flashEncendido) {
-                mCameraManager.setTorchMode(mCameraId, false);
-                flashEncendido = false;
-            } else {
-                try {
-                    mCameraManager.setTorchMode(mCameraId, true);
-                    flashEncendido = true;
-                } catch (CameraAccessException e) {
-                    e.printStackTrace();
-                }
-            }
-        } catch (CameraAccessException e) {
-            e.printStackTrace();
+    private void abrirIntent(String nomIntent) {
+        switch (nomIntent) {
+            case "codificacion":
+                Intent intent = new Intent(getApplicationContext(), Codificar.class);
+                startActivity(intent);
+                break;
+            case "decodificacion":
+                break;
+            case "configuracion":
+                break;
+            case "marcacion rapida":
+                break;
         }
     }
-
-    private void inicializar() {
-        if (flashAccesible) {
-            mCameraManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
-            try {
-                mCameraId = mCameraManager.getCameraIdList()[0];
-            } catch (CameraAccessException e) {
-                e.printStackTrace();
-            }
-        } else {
-            comprobarAccesibilidad();
-            if(flashAccesible) inicializar(); //esto para cargar los ids...
-        }
-    }
-
-    private void comprobarAccesibilidad() {
-        flashAccesible = getApplicationContext().getPackageManager()
-                .hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
-        if (!flashAccesible) {
-            showNoFlashError();
-        }
-    }
-
-    private void showNoFlashError() {
-        AlertDialog alert = new AlertDialog.Builder(this)
-                .create();
-        alert.setTitle("Oops!");
-        alert.setMessage("No se puede acceder al flash...");
-        alert.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-            }
-        });
-        alert.show();
-    }
-
 
     public void pedirPermiso() {
         if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
@@ -128,31 +77,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void llamarEmergencias() {
         Intent i = new Intent(Intent.ACTION_CALL);
-        i.setData(Uri.parse("tel:112"));
+        i.setData(Uri.parse("tel:+34 112"));
         startActivity(i);
-    }
-
-    public void quitarTeclado() {
-        InputMethodManager imm;
-        imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE); //para quitar el teclado
-        imm.hideSoftInputFromWindow(etTexto.getWindowToken(), 0); //quitar teclado
-    }
-
-    private String codificar(String texto) {
-        StringBuilder codificado = new StringBuilder();
-        for (int i = 0; i < texto.length(); i++) {
-            String charComoCadenaYEnMayusculas = String.valueOf(texto.charAt(i)).toUpperCase();
-            String equivalencia = asciiAMorse(charComoCadenaYEnMayusculas);
-            codificado
-                    .append(equivalencia)
-                    .append(" ");
-        }
-        return codificado.toString();
-    }
-
-    public static String asciiAMorse(String ascii) {
-        Hashtable<String, String> equivalencias = obtenerEquivalencias();
-        return equivalencias.getOrDefault(ascii, "");
     }
 
     @Override
@@ -168,59 +94,5 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
         }
-    }
-
-    public static Hashtable<String, String> obtenerEquivalencias() {
-        Hashtable<String, String> equivalencias = new Hashtable<>();
-        equivalencias.put("A", ".-");
-        equivalencias.put("B", "-...");
-        equivalencias.put("C", "-.-.");
-        equivalencias.put("CH", "----");
-        equivalencias.put("D", "-..");
-        equivalencias.put("E", ".");
-        equivalencias.put("F", "..-.");
-        equivalencias.put("G", "--.");
-        equivalencias.put("H", "....");
-        equivalencias.put("I", "..");
-        equivalencias.put("J", ".---");
-        equivalencias.put("K", "-.-");
-        equivalencias.put("L", ".-..");
-        equivalencias.put("M", "--");
-        equivalencias.put("N", "-.");
-        equivalencias.put("Ñ", "--.--");
-        equivalencias.put("O", "---");
-        equivalencias.put("P", ".--.");
-        equivalencias.put("Q", "--.-");
-        equivalencias.put("R", ".-.");
-        equivalencias.put("S", "...");
-        equivalencias.put("T", "-");
-        equivalencias.put("U", "..-");
-        equivalencias.put("V", "...-");
-        equivalencias.put("W", ".--");
-        equivalencias.put("X", "-..-");
-        equivalencias.put("Y", "-.--");
-        equivalencias.put("Z", "--..");
-        equivalencias.put("0", "-----");
-        equivalencias.put("1", ".----");
-        equivalencias.put("2", "..---");
-        equivalencias.put("3", "...--");
-        equivalencias.put("4", "....-");
-        equivalencias.put("5", ".....");
-        equivalencias.put("6", "-....");
-        equivalencias.put("7", "--...");
-        equivalencias.put("8", "---..");
-        equivalencias.put("9", "----.");
-        equivalencias.put(".", ".-.-.-");
-        equivalencias.put(",", "--..--");
-        equivalencias.put(":", "---...");
-        equivalencias.put("?", "..--..");
-        equivalencias.put("'", ".----.");
-        equivalencias.put("-", "-....-");
-        equivalencias.put("/", "-..-.");
-        equivalencias.put("\"", ".-..-.");
-        equivalencias.put("@", ".--.-.");
-        equivalencias.put("=", "-...-");
-        equivalencias.put("!", "−.−.−−");
-        return equivalencias;
     }
 }
