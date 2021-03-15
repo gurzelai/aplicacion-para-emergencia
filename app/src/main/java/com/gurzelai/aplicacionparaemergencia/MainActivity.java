@@ -53,12 +53,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void abrirIntent(String nomIntent) {
+        Intent intent = null;
         switch (nomIntent) {
             case "codificacion":
-                Intent intent = new Intent(getApplicationContext(), Codificar.class);
+                intent = new Intent(getApplicationContext(), Codificar.class);
                 startActivity(intent);
                 break;
             case "decodificacion":
+                intent = new Intent(getApplicationContext(), Decodificar.class);
+                startActivity(intent);
                 break;
             case "configuracion":
                 break;

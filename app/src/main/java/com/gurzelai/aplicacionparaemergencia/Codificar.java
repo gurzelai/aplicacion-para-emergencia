@@ -32,6 +32,7 @@ public class Codificar extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_traduccion);
+        setTitle("Codificar");
 
         tvResultado = findViewById(R.id.tvResultado);
         etTexto = findViewById(R.id.etTexto);
