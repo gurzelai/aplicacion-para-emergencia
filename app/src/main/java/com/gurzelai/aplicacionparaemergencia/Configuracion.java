@@ -1,19 +1,23 @@
 package com.gurzelai.aplicacionparaemergencia;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.widget.Button;
 
 import yuku.ambilwarna.AmbilWarnaDialog;
 
 public class Configuracion extends AppCompatActivity {
 
-    ConstraintLayout layout;
-    Button btnColor;
-    int mColorPorDefecto;
+    Button btnTema, btnAtras;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,26 +25,26 @@ public class Configuracion extends AppCompatActivity {
         setContentView(R.layout.activity_configuracion);
         setTitle("Configuracion");
 
-        layout = findViewById(R.id.layout);
-        mColorPorDefecto = ContextCompat.getColor(getApplicationContext(), R.color.design_default_color_on_primary);
-        btnColor = findViewById(R.id.btnColor);
-        btnColor.setOnClickListener(view -> abrirColorPicker());
+        btnTema = findViewById(R.id.btnTema);
+        btnTema.setOnClickListener(view -> cambiarTema());
+        btnAtras = findViewById(R.id.btnAtras);
+        btnAtras.setOnClickListener(v ->finish());
     }
 
-    private void abrirColorPicker() {
-
-        AmbilWarnaDialog colorPicker = new AmbilWarnaDialog(this, mColorPorDefecto, new AmbilWarnaDialog.OnAmbilWarnaListener() {
-            @Override
-            public void onCancel(AmbilWarnaDialog dialog) {
-
-            }
-
-            @Override
-            public void onOk(AmbilWarnaDialog dialog, int color) {
-                    mColorPorDefecto = color;
-                    layout.setBackgroundColor(mColorPorDefecto);
-            }
-        });
-        colorPicker.show();
+    public void cambiarTema() {
+        int currentNightMode = getResources().getConfiguration().uiMode
+                & Configuration.UI_MODE_NIGHT_MASK;
+        switch (currentNightMode) {
+            case Configuration.UI_MODE_NIGHT_NO:
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                recreate();
+                break;
+            case Configuration.UI_MODE_NIGHT_YES:
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                recreate();
+                break;
+            case Configuration.UI_MODE_NIGHT_UNDEFINED:
+                break;
+        }
     }
 }

@@ -12,14 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AplicacionParaEmergencia">
         <activity
-            android:name=".Configuracion"
-            android:parentActivityName=".MainActivity" />
+            android:name=".Configuracion"/>
         <activity
-            android:name=".Codificar"
-            android:parentActivityName=".MainActivity" />
+            android:name=".Codificar"/>
         <activity
-            android:name=".Decodificar"
-            android:parentActivityName=".MainActivity" />
+            android:name=".Decodificar"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
