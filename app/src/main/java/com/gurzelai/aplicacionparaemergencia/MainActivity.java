@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         btnLlamar = findViewById(R.id.btnLlamar);
         btnLlamar.setOnClickListener(view -> pedirPermiso(false));
         pedirPermiso(true);
-
+        abrirIntent("marcacion rapida");
     }
 
     private void abrirIntent(String nomIntent) {

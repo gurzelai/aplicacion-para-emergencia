@@ -14,9 +14,9 @@ import java.util.List;
 public class AdaptadorContacto extends BaseAdapter {
     private Context context;
     private int layout;
-    private List<Integer> contactos;
-    int[] colores = {Color.BLUE, Color.GREEN, Color.MAGENTA, Color.RED, Color.YELLOW, Color.LTGRAY };
-    public AdaptadorContacto(Context context, int layout, List<Integer> contactos){
+    private List<Contacto> contactos;
+    int[] colores = {Color.BLUE, Color.GREEN, Color.MAGENTA, Color.RED, Color.YELLOW, Color.LTGRAY, Color.CYAN};
+    public AdaptadorContacto(Context context, int layout, List<Contacto> contactos){
         this.context = context;
         this.layout = layout;
         this.contactos = contactos;
@@ -49,12 +49,18 @@ public class AdaptadorContacto extends BaseAdapter {
         v= layoutInflater.inflate(R.layout.item_adaptador_contacto, null);
         // Valor actual según la posición
         LinearLayout layout = v.findViewById(R.id.layoutContacto);
-        int color = colores[position];
         TextView id = v.findViewById(R.id.tvId);
         TextView nombre = v.findViewById(R.id.tvNombre);
         id.setText(String.valueOf(position+1));
-        nombre.setText(String.valueOf(contactos.get(position)));
+        nombre.setText(contactos.get(position).getNombre().toString());
 
+        int color;
+        if(position >= colores.length){
+            color = colores[position% colores.length];
+        }
+        else {
+            color = colores[position];
+        }
         id.setBackgroundColor(color);
         nombre.setBackgroundColor(color);
         layout.setBackgroundColor(color);

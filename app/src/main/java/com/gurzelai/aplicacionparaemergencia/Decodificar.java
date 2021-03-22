@@ -20,15 +20,14 @@ public class Decodificar extends AppCompatActivity {
 
     EditText etTexto;
     TextView tvResultado;
-    Button btnCodificar, btnFlash;
+    Button btnCodificar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_traduccion);
+        setContentView(R.layout.activity_codificar);
         setTitle("Decodificar");
 
-        Toast.makeText(getApplicationContext(), "Usa los espacios", Toast.LENGTH_SHORT).show();
         tvResultado = findViewById(R.id.tvResultado);
         etTexto = findViewById(R.id.etTexto);
         btnCodificar = (Button) findViewById(R.id.btncodificar);
@@ -41,8 +40,6 @@ public class Decodificar extends AppCompatActivity {
                 tvResultado.setText(decodificado);
             }
         });
-        btnFlash = findViewById(R.id.btnFlash);
-        btnFlash.setVisibility(View.INVISIBLE);
     }
 
     public static String decodificar(String codificado) {

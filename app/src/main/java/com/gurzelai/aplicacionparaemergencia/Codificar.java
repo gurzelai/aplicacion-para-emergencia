@@ -31,7 +31,7 @@ public class Codificar extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_traduccion);
+        setContentView(R.layout.activity_codificar);
         setTitle("Codificar");
 
         tvResultado = findViewById(R.id.tvResultado);
