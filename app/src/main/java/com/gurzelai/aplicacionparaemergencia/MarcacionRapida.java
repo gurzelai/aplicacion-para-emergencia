@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -44,6 +45,7 @@ public class MarcacionRapida extends AppCompatActivity {
         contactos = new ArrayList<>();
         contactos.add(new Contacto("Gorka", 0));
         contactos.add(new Contacto("Mikel", 0));
+        contactos.add(new Contacto("Peio", 0));
 
         lvMarcacion = findViewById(R.id.lvMarcacion);
         lvMarcacion.setAdapter(adapter = new AdaptadorContacto(this, R.layout.item_adaptador_contacto, contactos));
@@ -58,12 +60,14 @@ public class MarcacionRapida extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 contactos.remove(position);
+                adapter.notifyDataSetChanged();
                 return true;
             }
         });
         //Toast.makeText(getApplicationContext(), "Manten para eliminar", Toast.LENGTH_SHORT).show();
     }
 
+    @SuppressLint("IntentReset")
     private void seleccionarContacto() {
         Intent intent = new Intent(Intent.ACTION_PICK, Uri.parse("content://contacts"));
         intent.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE);

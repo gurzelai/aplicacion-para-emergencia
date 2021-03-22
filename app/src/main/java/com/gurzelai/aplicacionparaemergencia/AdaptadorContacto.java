@@ -15,7 +15,7 @@ public class AdaptadorContacto extends BaseAdapter {
     private Context context;
     private int layout;
     private List<Contacto> contactos;
-    int[] colores = {Color.BLUE, Color.GREEN, Color.MAGENTA, Color.RED, Color.YELLOW, Color.LTGRAY, Color.CYAN};
+    int[] colores = {Color.GREEN, Color.MAGENTA, Color.RED, Color.YELLOW, Color.LTGRAY, Color.CYAN};
     public AdaptadorContacto(Context context, int layout, List<Contacto> contactos){
         this.context = context;
         this.layout = layout;

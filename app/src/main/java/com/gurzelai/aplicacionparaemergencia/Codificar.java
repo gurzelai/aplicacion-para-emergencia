@@ -16,6 +16,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.Hashtable;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Codificar extends AppCompatActivity {
 
@@ -53,25 +55,31 @@ public class Codificar extends AppCompatActivity {
     private void flash() {
         if (!flashAccesible) inicializar();
         if (flashAccesible) {
-            //mostrarFlashEnMorse();
-            actualizarFlash();
+
+            String morse = tvResultado.getText().toString().replace(" ", "");
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    for (int i = 0; i < morse.length(); i++) {
+                        Character c = morse.charAt(i);
+                        actualizarFlash();
+                        try {
+                            if (c.equals('-')) {
+                                Thread.sleep(1300);
+                            }
+                            if (c.equals('.')) {
+                                Thread.sleep(600, 500);
+                            }
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        actualizarFlash();
+                    }
+                }
+            }).start();
         }
     }
 
-    private void mostrarFlashEnMorse() {
-        String morse = tvResultado.getText().toString();
-        morse.replace(" ", "");
-        new Thread(new Runnable() {
-            public void run() {
-                for (int i = 0; i < morse.length() - 1; i++) {
-                    Character c = morse.charAt(i);
-                    actualizarFlash();
-                    //aqui meter las conditions
-                    actualizarFlash();
-                }
-            }
-        }).start();
-    } //para cambiar
 
     private void inicializar() {
         mCameraManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
@@ -91,18 +99,6 @@ public class Codificar extends AppCompatActivity {
         }
     }
 
-    private void showNoFlashError() {
-        AlertDialog alert = new AlertDialog.Builder(this)
-                .create();
-        alert.setTitle("Oops!");
-        alert.setMessage("No se puede acceder al flash...");
-        alert.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-            }
-        });
-        alert.show();
-    }
-
     private void actualizarFlash() {
         try {
             if (flashEncendido) {
@@ -120,6 +116,7 @@ public class Codificar extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
 
     public void quitarTeclado() {
         InputMethodManager imm;
@@ -196,5 +193,17 @@ public class Codificar extends AppCompatActivity {
         equivalencias.put("=", "-...-");
         equivalencias.put("!", "−.−.−−");
         return equivalencias;
+    }
+
+    private void showNoFlashError() {
+        AlertDialog alert = new AlertDialog.Builder(this)
+                .create();
+        alert.setTitle("Oops!");
+        alert.setMessage("No se puede acceder al flash...");
+        alert.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        alert.show();
     }
 }

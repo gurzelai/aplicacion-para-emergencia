@@ -36,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
         btnLlamar = findViewById(R.id.btnLlamar);
         btnLlamar.setOnClickListener(view -> pedirPermiso(false));
         pedirPermiso(true);
-        abrirIntent("marcacion rapida");
     }
 
     private void abrirIntent(String nomIntent) {
@@ -63,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void pedirPermiso(boolean inicio) {
         if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
-            if(!inicio)llamarEmergencias();
+            if (!inicio) llamarEmergencias();
         } else {
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.CALL_PHONE}, MY_PERMISSIONS_REQUEST_CALL_PHONE);
         }

@@ -25,7 +25,7 @@ public class Decodificar extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_codificar);
+        setContentView(R.layout.activity_decodificar);
         setTitle("Decodificar");
 
         tvResultado = findViewById(R.id.tvResultado);

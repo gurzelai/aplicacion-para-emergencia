@@ -63,7 +63,9 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="10sp"
             android:backgroundTint="#FFEB3B"
-            android:text="FLASH" />
+            android:text="FLASH"
+            android:textColor="#000000"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/btncodificar"
