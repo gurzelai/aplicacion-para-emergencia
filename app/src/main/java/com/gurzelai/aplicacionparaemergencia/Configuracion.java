@@ -17,7 +17,7 @@ import yuku.ambilwarna.AmbilWarnaDialog;
 
 public class Configuracion extends AppCompatActivity {
 
-    Button btnTema, btnAtras;
+    Button btnAtras;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,26 +25,8 @@ public class Configuracion extends AppCompatActivity {
         setContentView(R.layout.activity_configuracion);
         setTitle("Configuracion");
 
-        btnTema = findViewById(R.id.btnTema);
-        btnTema.setOnClickListener(view -> cambiarTema());
         btnAtras = findViewById(R.id.btnAtras);
         btnAtras.setOnClickListener(v ->finish());
     }
 
-    public void cambiarTema() {
-        int currentNightMode = getResources().getConfiguration().uiMode
-                & Configuration.UI_MODE_NIGHT_MASK;
-        switch (currentNightMode) {
-            case Configuration.UI_MODE_NIGHT_NO:
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                recreate();
-                break;
-            case Configuration.UI_MODE_NIGHT_YES:
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                recreate();
-                break;
-            case Configuration.UI_MODE_NIGHT_UNDEFINED:
-                break;
-        }
-    }
 }

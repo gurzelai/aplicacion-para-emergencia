@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="20sp"
+    android:background="@color/fondo"
     tools:context=".MainActivity">
 
 
@@ -13,9 +14,12 @@
         android:id="@+id/btnCodificar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="70dp"
         android:text="CODIFICAR A MORSE"
+        android:textStyle="bold"
+        android:textColor="@color/black"
         android:textSize="20sp"
+        android:backgroundTint="@color/amarillo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -25,6 +29,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:backgroundTint="@color/amarillo"
         android:text="DECODIFICAR DE MORSE"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -46,10 +53,10 @@
         android:id="@+id/btnMarcacionRapida"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="10dp"
         android:text="Marcacion rapida"
         android:textStyle="bold"
-        android:textSize="20sp"
+        android:textSize="30sp"
         app:layout_constraintBottom_toTopOf="@+id/btnLlamar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -58,10 +65,11 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnLlamar"
-        android:layout_width="160sp"
-        android:layout_height="160sp"
-        android:layout_marginBottom="30dp"
+        android:layout_width="210sp"
+        android:layout_height="210sp"
+        android:layout_marginBottom="10dp"
         android:backgroundTint="#CC1010"
+        app:backgroundTint="#CC1010"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -73,7 +81,7 @@
         android:elevation="16dp"
         android:text="SOS"
         android:textColor="@color/white"
-        android:textSize="40sp"
+        android:textSize="105sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/btnLlamar"
         app:layout_constraintEnd_toEndOf="@+id/btnLlamar"
@@ -87,7 +95,6 @@
         android:background="?android:attr/listDivider"
         app:layout_constraintBottom_toTopOf="@+id/btnMarcacionRapida"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnConfiguracion" />
 

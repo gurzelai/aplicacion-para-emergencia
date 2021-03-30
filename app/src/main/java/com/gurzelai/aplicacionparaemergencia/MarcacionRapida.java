@@ -43,9 +43,6 @@ public class MarcacionRapida extends AppCompatActivity {
         anadir.setOnClickListener(v -> seleccionarContacto());
 
         contactos = new ArrayList<>();
-        contactos.add(new Contacto("Gorka", 0));
-        contactos.add(new Contacto("Mikel", 0));
-        contactos.add(new Contacto("Peio", 0));
 
         lvMarcacion = findViewById(R.id.lvMarcacion);
         lvMarcacion.setAdapter(adapter = new AdaptadorContacto(this, R.layout.item_adaptador_contacto, contactos));
@@ -84,7 +81,7 @@ public class MarcacionRapida extends AppCompatActivity {
 
     private void llamar(int position) {
         Intent i = new Intent(Intent.ACTION_CALL);
-        i.setData(Uri.parse("tel:" + contactos.get(position)));
+        i.setData(Uri.parse("tel:" + contactos.get(position).getNumero()));
         startActivity(i);
     }
 

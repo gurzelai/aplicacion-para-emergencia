@@ -60,9 +60,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void pedirPermiso(boolean inicio) {
+    public void pedirPermiso(boolean esLaPrimeraVez) {
         if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
-            if (!inicio) llamarEmergencias();
+            if (!esLaPrimeraVez) llamarEmergencias();
         } else {
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.CALL_PHONE}, MY_PERMISSIONS_REQUEST_CALL_PHONE);
         }

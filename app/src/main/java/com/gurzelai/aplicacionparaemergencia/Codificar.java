@@ -29,6 +29,7 @@ public class Codificar extends AppCompatActivity {
     private CameraManager mCameraManager;
     private String mCameraId;
     boolean flashEncendido = false;
+    boolean flashReproduciendo = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +55,8 @@ public class Codificar extends AppCompatActivity {
 
     private void flash() {
         if (!flashAccesible) inicializar();
-        if (flashAccesible) {
-
+        if (flashAccesible && !flashReproduciendo) {
+            flashReproduciendo = true;
             String morse = tvResultado.getText().toString().replace(" ", "");
             new Thread(new Runnable() {
                 @Override
@@ -75,6 +76,7 @@ public class Codificar extends AppCompatActivity {
                         }
                         actualizarFlash();
                     }
+                    flashReproduciendo = false;
                 }
             }).start();
         }
