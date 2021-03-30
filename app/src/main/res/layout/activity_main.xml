@@ -78,12 +78,15 @@
 
     <TextView
 
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="343dp"
+        android:layout_height="124dp"
         android:elevation="16dp"
+
+        android:fontFamily="@font/cantata_one"
+        android:gravity="center"
         android:text="SOS"
         android:textColor="@color/white"
-        android:textSize="105sp"
+        android:textSize="92sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/btnLlamar"
         app:layout_constraintEnd_toEndOf="@+id/btnLlamar"

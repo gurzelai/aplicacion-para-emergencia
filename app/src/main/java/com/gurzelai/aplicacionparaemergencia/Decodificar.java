@@ -27,7 +27,6 @@ public class Decodificar extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_decodificar);
         setTitle("Decodificar");
-        Toast.makeText(getApplicationContext(), "Use espacios", Toast.LENGTH_SHORT).show();
         tvResultado = findViewById(R.id.tvResultado);
         etTexto = findViewById(R.id.etTexto);
         btnCodificar = (Button) findViewById(R.id.btncodificar);
@@ -44,7 +43,6 @@ public class Decodificar extends AppCompatActivity {
 
     public static String decodificar(String codificado) {
         StringBuilder decodificado = new StringBuilder();
-        // Necesitamos separarlo por espacios
         String[] morse = codificado.split(" ");
         for (String morseActual : morse) {
             String equivalencia = morseAAscii(morseActual);
