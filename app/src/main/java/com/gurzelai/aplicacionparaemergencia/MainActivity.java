@@ -28,8 +28,6 @@ public class MainActivity extends AppCompatActivity {
         btnCodificacion.setOnClickListener(view -> abrirIntent("codificacion"));
         btnDecodificacion = findViewById(R.id.btnDecodificar);
         btnDecodificacion.setOnClickListener(view -> abrirIntent("decodificacion"));
-        btnConfiguracion = findViewById(R.id.btnConfiguracion);
-        btnConfiguracion.setOnClickListener(view -> abrirIntent("configuracion"));
         btnMarcacionRapida = findViewById(R.id.btnMarcacionRapida);
         btnMarcacionRapida.setOnClickListener(view -> abrirIntent("marcacion rapida"));
 
@@ -47,10 +45,6 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case "decodificacion":
                 intent = new Intent(getApplicationContext(), Decodificar.class);
-                startActivity(intent);
-                break;
-            case "configuracion":
-                intent = new Intent(getApplicationContext(), Configuracion.class);
                 startActivity(intent);
                 break;
             case "marcacion rapida":
