@@ -13,6 +13,7 @@
         android:layout_height="match_parent"
         android:textColor="@color/black"
         android:textSize="40sp"
+        android:gravity="center"
         android:textStyle="bold" />
 
     <TextView

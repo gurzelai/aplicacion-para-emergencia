@@ -12,8 +12,9 @@
 
     <Button
         android:id="@+id/btnCodificar"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:layout_marginTop="70dp"
         android:text="CODIFICAR A MORSE"
         android:textStyle="bold"
@@ -26,8 +27,9 @@
 
     <Button
         android:id="@+id/btnDecodificar"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:layout_marginTop="30dp"
         android:textStyle="bold"
         android:textColor="@color/black"
